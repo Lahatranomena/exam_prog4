@@ -1,6 +1,7 @@
-package com.exam.demo.endpoint.event.model;
+package com.exam.demo.submission.service;
 
 import com.exam.demo.endpoint.event.EventProducer;
+import com.exam.demo.endpoint.event.model.ImageUploadRequested;
 import com.exam.demo.file.bucket.BucketComponent;
 import com.exam.demo.submission.entity.Submission;
 import com.exam.demo.submission.repository.SubmissionRepository;

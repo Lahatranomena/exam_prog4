@@ -1,7 +1,7 @@
 package com.exam.demo.endpoint.rest.controller.health;
 
-import com.exam.demo.endpoint.event.model.SubmissionService;
 import com.exam.demo.submission.entity.Submission;
+import com.exam.demo.submission.service.SubmissionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
