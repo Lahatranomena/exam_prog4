@@ -1,5 +1,7 @@
 package com.exam.demo.service.event;
 
+import com.exam.demo.endpoint.event.EventProducer;
+import com.exam.demo.endpoint.event.model.ImageUploadRequested;
 import com.exam.demo.file.bucket.BucketComponent;
 import com.exam.demo.submission.entity.Submission;
 import com.exam.demo.submission.repository.SubmissionRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SubmissionService {
   private final SubmissionRepository repository;
   private final BucketComponent bucketComponent;
+  private final EventProducer<ImageUploadRequested> eventProducer;
 
   @SneakyThrows
   public Submission submit(String email, MultipartFile file) {
@@ -34,8 +37,13 @@ public class SubmissionService {
             .email(email)
             .createdAt(Instant.now())
             .build();
+    var saved = repository.saveAndFlush(submission);
 
-    return repository.saveAndFlush(submission);
+    var event =
+        ImageUploadRequested.builder().submissionId(id).bucketKey(bucketKey).email(email).build();
+    eventProducer.accept(List.of(event));
+
+    return saved;
   }
 
   public List<Submission> getAll() {
